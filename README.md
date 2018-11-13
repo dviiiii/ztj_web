@@ -18,7 +18,7 @@ npm run build
 ```
 
 ## 简介
-    个人折腾项目，just coding
+    个人折腾项目，just coding！
 ## 功能
 
 - 登录/登出
