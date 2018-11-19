@@ -30,13 +30,12 @@ export default {
     handleSubmit ({ userName, password }) {
       //点击登录
       this.handleLogin({ userName, password }).then(res => {
-        console.log(res)
         //获取用户信息
-        // this.getUserInfo().then(res => {
-        //   this.$router.push({
-        //     name: this.$config.homeName
-        //   })
-        // })
+        this.getUserInfo().then(res => {
+          this.$router.push({
+            name: this.$config.homeName
+          })
+        })
       })
     }
   }
