@@ -104,8 +104,15 @@ export default {
     getUserInfo ({ state, commit }) {
       return new Promise((resolve, reject) => {
         try {
-          getUserInfo(state.token).then(res => {
-            const data = res.data.data;
+          // getUserInfo(state.token).then(res => {
+          //   const data = res.data.data;
+            const data =   {
+              name: 'super_admin',
+              user_id: '1',
+              access: ['super_admin', 'admin'],
+              token: 'super_admin',
+              avator: 'https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png'
+            }
 
             commit('setAvator', data.avator);
             commit('setUserName', data.name);
@@ -113,9 +120,9 @@ export default {
             commit('setAccess', data.access);
             commit('setHasGetInfo', true);
             resolve(data);
-          }).catch(err => {
-            reject(err);
-          })
+          // }).catch(err => {
+          //   reject(err);
+          // })
         } catch (error) {
           reject(error)
         }
