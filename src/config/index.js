@@ -13,8 +13,8 @@ export default {
    * @description api请求基础路径
    */
   baseUrl: {
-    dev: '/hqdba',
-    pro: '/hqdba'
+    dev: '/ztjapi',
+    pro: '/ztjapi'
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home

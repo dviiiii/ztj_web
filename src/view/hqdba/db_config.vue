@@ -148,7 +148,7 @@ export default {
       const vm = this;
 
       vm.$api.queryConfig().then(res => {
-          vm.config_columns = res;
+          vm.config_data = res.data.list;
         console.log(res)
       });
     }
