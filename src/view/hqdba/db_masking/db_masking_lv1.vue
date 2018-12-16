@@ -98,6 +98,11 @@
     @on-ok="toMasking">
       <Row>
         <Col span="24" class="row-col">
+          <span class="col-text">依赖主键: </span><Select v-model="params.masking_key" style="width:200px;">
+          <Option v-for="item in tableCols" :value="item.key" :key="item.key">{{ item.key }}</Option>
+        </Select>
+        </Col>
+        <Col span="24" class="row-col">
         <span class="col-text">脱敏规则: </span><Select v-model="params.masking_type" style="width:200px;">
         <Option v-for="item in masking_type" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
@@ -106,13 +111,16 @@
         <span class="col-text">可选参数: </span><Input v-model="params.other"  clearable style="width: 200px" />
         </Col>
         <Col span="24" class="row-col">
-        <span class="col-text">当可选参数为随机数时，在可选参数填写三个参数【最小值，最大值，小数位数】</span>
+        <span >当可选参数为随机数时，在可选参数填写三个参数【最小值，最大值，小数位数】</span>
         </Col>
         <Col span="24" class="row-col">
-        <span class="col-text">当可选参数为枚举时，在可选参数填写枚举的选项，如【男，女】</span>
+        <span>当可选参数为枚举时，在可选参数填写枚举的选项，如【男，女】</span>
         </Col>
         <Col span="24" class="row-col">
-        <span class="col-text">用逗号隔开</span>
+        <span>用逗号隔开</span>
+        </Col>
+        <Col span="24" class="row-col">
+          <span >当可选参数为固定值时，在可选参数填写数值即可</span>
         </Col>
       </Row>
     </Modal>
@@ -138,8 +146,10 @@
         tableData: [],
         maskCol:'',
         params: {
+          masking_key: '',
           masking_type: '',
           other: '',
+
         },
         masking_type: [{
           value: 'get_phone_num',
@@ -149,7 +159,7 @@
           label: '姓名',
         },{
           value: 'getGennerator',
-          label: '省份证号',
+          label: '身份证号',
         },{
           value: 'getEmail',
           label: '邮箱',
@@ -159,6 +169,9 @@
         },{
           value: 'getEnum',
           label: '枚举',
+        },{
+          value: 'getFixedValue',
+          label: '固定值',
         }],
         config_data: [],
       }
@@ -266,27 +279,32 @@
             tableName: vm.tableName_active,
             tableCol: vm.maskCol,
             masking_type: vm.params.masking_type,
+            masking_key: vm.params.masking_key,
             masking_other: vm.params.other,
         };
 
-        if(par.masking_type === 'getRandomNumber' || par.masking_type === 'getEnum') {
-          par.masking_other = vm.params.other.split(',');
-        }
+
+        par.masking_other = vm.params.other.split(',');
+
 
         if(!par.tableName) {
             vm.$Message.warning('请先选择表！');
+            return false;
         }
 
         if(!par.tableCol) {
           vm.$Message.warning('请先选择列！');
+          return false
         }
 
         if(!par.masking_type) {
           vm.$Message.warning('请先选择脱敏规则！');
+          return false
         }
 
         vm.$api.toMasking(par).then(res => {
-          console.log(res)
+
+          vm.queryOneTable();
         });
       }
     }
