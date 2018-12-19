@@ -54,6 +54,7 @@
     font-weight: 100;
     margin-left: 70px;
   }
+
 </style>
 <template>
   <div class="content" :style="{minHeight: contentH+'px'}">
