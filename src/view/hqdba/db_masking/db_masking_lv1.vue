@@ -48,6 +48,12 @@
   .masking-modal .ivu-row {
     overflow: inherit;
   }
+
+  .title-tips {
+    font-size: 12px;
+    font-weight: 100;
+    margin-left: 70px;
+  }
 </style>
 <template>
   <div class="content" :style="{minHeight: contentH+'px'}">
@@ -65,7 +71,8 @@
       <Col span="4">
       <div style="background:#eee;">
         <Card :bordered="true" >
-          <p slot="title">选择实例</p>
+          <p slot="title">选择实例 <span class="title-tips">共{{tableLength}}张表</span></p>
+
           <div class="table-name-row">
             <Select v-model="selectedDB" filterable @on-change="changeSelectedDB">
               <Option v-for="item in config_data" :value="item.id" :key="item.id">{{ item.db_name }}</Option>
@@ -81,7 +88,7 @@
       </div>
       </Col>
       <Col span="20">
-      <Table :height="tableH" :show-header="false" ref="tableData_table" border :columns="tableCols" :data="tableData" style="width: 100%">
+      <Table :loading="loading" :height="tableH" :show-header="false" ref="tableData_table" border :columns="tableCols" :data="tableData" style="width: 100%">
         <div slot="header">
           <RadioGroup v-model="maskCol" type="button" class="col-head" ref="RadioG">
             <Radio style="width:150px;" :label="col.key" v-for="col in tableCols"></Radio>
@@ -134,6 +141,8 @@
     name: 'db_masking_lv1',
     data () {
       return {
+        loading: false,
+        tableLength: 0,
         tableH: '',
         contentH: '',
         cardH:'',
@@ -178,7 +187,7 @@
     },
     mounted () {
         const vm = this;
-      this.queryConfig();
+
       vm.tbody = vm.$refs.tableData_table.$refs.body;
       vm.tbody.addEventListener('scroll', this.handleScroll);
 
@@ -194,6 +203,9 @@
           vm.contentH = window.innerHeight - 140;
         })()
       };
+    },
+    activated() {
+      this.queryConfig();
     },
     destroyed () {//离开该页面需要移除这个监听的事件
       const vm = this;
@@ -225,6 +237,7 @@
           const vm = this;
         vm.$api.queryAllTables({id: vm.selectedDB}).then(res => {
             vm.tableNames = res.data.list;
+            vm.tableLength = res.data.list.length;
         });
       },
 
@@ -256,9 +269,12 @@
       //根据表名查询表数据
       queryOneTable() {
         const vm = this;
+        vm.loading = true;
         vm.$api.queryOneTable({tableName: vm.tableName_active}).then(res => {
-          vm.tableData = res.data.list
-
+          vm.tableData = res.data.list;
+          vm.loading = false;
+        }).catch(err => {
+          vm.loading = false;
         });
       },
 
