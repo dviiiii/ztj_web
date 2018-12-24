@@ -12,6 +12,9 @@ const api = {
   // 根据表名查询表数据
   queryOneTable: data => { return axios.request({ url: '/hqdba/queryOneTable', data, method: 'post' }) },
   // 根据表名查询表数据
-  toMasking: data => { return axios.request({ url: '/hqdba/toMasking', data, method: 'post' }) }
+  toMasking: data => { return axios.request({ url: '/hqdba/toMasking', data, method: 'post' }) },
+
+  // 根据表名查询表数据
+  addBook: data => { return axios.request({ url: '/online/book/addBook', data, method: 'post' }) },
 }
 export default api
