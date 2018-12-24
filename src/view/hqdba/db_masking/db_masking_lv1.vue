@@ -55,6 +55,11 @@
     margin-left: 70px;
   }
 
+  .filtterInput{
+    width: 150px;
+    margin-left: 15px;
+  }
+
 </style>
 <template>
   <div class="content" :style="{minHeight: contentH+'px'}">
@@ -63,6 +68,7 @@
       <div class="head clearfix">
         <div class="floatL">
           <Badge status="success" text="简单数据脱敏" />
+          <Input class="filtterInput" v-model="searchData.tableName" placeholder="查找表名" style="width: 150px" @on-change="toSearch" />
         </div>
         <div class="floatR">
           <Button type="info" @click="selectMasking">选择脱敏规则</Button>
@@ -151,6 +157,7 @@
         masking_modal: false,
         selectedDB: '',
         tableNames: [],
+        tableNameClone: [],
         tableName_active: '',
         tableCols: [],
         tableData: [],
@@ -184,6 +191,15 @@
           label: '固定值',
         }],
         config_data: [],
+        searchData: {
+            tableName: ''
+        }
+      }
+    },
+    filters: {
+      TableName: function (value) {
+          console.log(value)
+        return value
       }
     },
     mounted () {
@@ -227,6 +243,28 @@
         this.masking_modal = true;
       },
 
+      //查询过滤方法
+      search (data, argumentObj) {
+        let res = data;
+        let dataClone = data;
+        for (let argu in argumentObj) {
+          if (argumentObj[argu].length > 0) {
+            res = dataClone.filter(d => {
+              return d[argu].indexOf(argumentObj[argu]) > -1;
+            });
+            dataClone = res;
+          }
+        }
+        return res;
+      },
+
+      toSearch () {
+          const vm = this;
+          vm.tableNames = vm.tableNameClone.filter(d => {
+            return d.toLowerCase().indexOf(vm.searchData.tableName.toLowerCase().trim()) > -1;
+          });
+      },
+
       //选择实例
       changeSelectedDB() {
           const vm = this;
@@ -238,6 +276,7 @@
           const vm = this;
         vm.$api.queryAllTables({id: vm.selectedDB}).then(res => {
             vm.tableNames = res.data.list;
+          vm.tableNameClone = JSON.parse(JSON.stringify(res.data.list));
             vm.tableLength = res.data.list.length;
         });
       },
