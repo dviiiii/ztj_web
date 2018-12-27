@@ -72,6 +72,7 @@
         </div>
         <div class="floatR">
           <Button type="info" @click="selectMasking">选择脱敏规则</Button>
+          <Button type="info" @click="other_mask_01">NC财务脱敏</Button>
         </div>
       </div>
       </Col>
@@ -278,6 +279,15 @@
             vm.tableNames = res.data.list;
           vm.tableNameClone = JSON.parse(JSON.stringify(res.data.list));
             vm.tableLength = res.data.list.length;
+        });
+      },
+
+      //特殊脱敏01---NC财务
+      other_mask_01() {
+        const vm = this;
+        vm.$api.other_mask_01().then(res => {
+            console.log(res);
+          vm.$Message.success('脱敏完成');
         });
       },
 

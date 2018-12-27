@@ -15,6 +15,9 @@ const api = {
   toMasking: data => { return axios.request({ url: '/hqdba/toMasking', data, method: 'post' }) },
 
   // 根据表名查询表数据
-  addBook: data => { return axios.request({ url: '/online/book/addBook', data, method: 'post' }) },
+  other_mask_01: data => { return axios.request({ url: '/hqdba/other_mask_01', data, method: 'post' }) },
+
+  // 增加书籍
+  addBook: data => { return axios.request({ url: '/online/book/addBook', data, method: 'post' }) }
 }
 export default api
