@@ -83,7 +83,7 @@
 
           <div class="table-name-row">
             <Select v-model="selectedDB" filterable @on-change="changeSelectedDB">
-              <Option v-for="item in config_data" :value="item.id" :key="item.id">{{ item.db_name }}</Option>
+              <Option v-for="item in config_data" :value="item.id" :key="item.id">{{ item.db_describe }}</Option>
             </Select>
           </div>
           <div :style="{height: cardH+'px'}" class="table-name">
