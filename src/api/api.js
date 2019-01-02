@@ -16,8 +16,10 @@ const api = {
   // 简单脱敏
   toMasking: data => { return axios.request({ url: '/hqdba/toMasking', data, method: 'post' }) },
 
+  // NC财务脱敏--查询脱敏数据总条数
+  mask_01_queryNum: data => { return axios.request({ url: '/hqdba/mask_01_queryNum', data, method: 'post' }) },
   // NC财务脱敏
-  other_mask_01: data => { return axios.request({ url: '/hqdba/other_mask_01', data, method: 'post' }) },
+  mask_01_toMasking: data => { return axios.request({ url: '/hqdba/mask_01_toMasking', data, method: 'post' }) },
 
   // 增加书籍
   addBook: data => { return axios.request({ url: '/online/book/addBook', data, method: 'post' }) }

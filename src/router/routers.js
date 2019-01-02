@@ -373,6 +373,15 @@ export default [
               title: '简单数据脱敏'
             },
             component: () => import('@/view/hqdba/db_masking/db_masking_lv1.vue')
+          },
+          {
+            path: 'db_masking_lv2',
+            name: '特殊数据脱敏',
+            meta: {
+              icon: 'md-funnel',
+              title: '特殊数据脱敏'
+            },
+            component: () => import('@/view/hqdba/db_masking/db_masking_lv2.vue')
           }
         ]
       },
