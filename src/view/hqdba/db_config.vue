@@ -43,7 +43,10 @@
       @on-ok="addConfig">
       <Row>
         <Col span="24" class="row-col">
-        <span class="col-text">数据库名称: </span><Input v-model="config_params.db_name"  clearable style="width: 200px" />
+        <span class="col-text">描述名称: </span><Input v-model="config_params.db_describe"  clearable style="width: 200px" />
+        </Col>
+        <Col span="24" class="row-col">
+        <span class="col-text">实例名称: </span><Input v-model="config_params.db_name"  clearable style="width: 200px" />
       </Col>
         <Col span="24" class="row-col">
           <span class="col-text">实例类型: </span><Select v-model="config_params.db_type" style="width:200px">
@@ -79,6 +82,7 @@ export default {
     return {
       config_modal: false,
       config_params: {
+        db_describe: '',
         db_name: '',
         db_type: '',
         db_host: '',
@@ -98,7 +102,10 @@ export default {
         label: 'oracle',
       },],
       config_columns:[{
-        title: '数据库名称',
+        title: '描述名称',
+        key: 'db_describe'
+      },{
+        title: '实例名称',
         key: 'db_name'
       },{
         title: '实例类型',
@@ -118,6 +125,26 @@ export default {
       },{
         title: 'SID',
         key: 'db_sid'
+      },{
+        title: '操作',
+        key: '',
+        align: 'center',
+        render: (h, params) => {
+          return h('div', [
+            h('Button', {
+              props: {
+                type: 'error',
+                size: 'small'
+              },
+              on: {
+                click: () => {
+                    console.log(params)
+                  this.removeConfig(params.row.id)
+                }
+              }
+            }, '删除')
+          ]);
+        }
       },],
       config_data: [],
     }
@@ -140,6 +167,16 @@ export default {
       vm.$api.addConfig(vm.config_params).then(res => {
         console.log(res)
         vm.queryConfig();
+      });
+    },
+
+    //删除实例
+    removeConfig(id) {
+      const vm = this;
+      vm.$api.removeConfig({id: id}).then(res => {
+        vm.queryConfig();
+      }).catch((err) => {
+          console.log(err)
       });
     },
 
