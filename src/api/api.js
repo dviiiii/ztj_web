@@ -1,6 +1,9 @@
 import axios from '@/libs/api.request'
 
 const api = {
+  // 用户登录
+  login: data => { return axios.request({ url: '/login', data, method: 'post' }) },
+
   // 增加数据库实例
   addConfig: data => { return axios.request({ url: '/hqdba/addConfig', data, method: 'post' }) },
   // 查询数据库实例

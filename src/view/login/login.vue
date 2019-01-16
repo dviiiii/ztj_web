@@ -29,14 +29,18 @@ export default {
     ]),
     handleSubmit ({ userName, password }) {
       //点击登录
-      this.handleLogin({ userName, password }).then(res => {
-        //获取用户信息
-        this.getUserInfo().then(res => {
-          this.$router.push({
-            name: this.$config.homeName
-          })
-        })
-      })
+      const vm = this;
+      vm.$api.login({userName, password}).then(res => {
+        console.log(res)
+      });
+//      this.handleLogin({ userName, password }).then(res => {
+//        //获取用户信息
+//        this.getUserInfo().then(res => {
+//          this.$router.push({
+//            name: this.$config.homeName
+//          })
+//        })
+//      })
     }
   }
 }
