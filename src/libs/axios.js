@@ -51,6 +51,7 @@ class HttpRequest {
       return { data, status }
     }, error => {
       this.destroy(url)
+      console.log(error.response)
       addErrorLog(error.response)
       return Promise.reject(error)
     })

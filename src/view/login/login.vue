@@ -31,16 +31,15 @@ export default {
       //点击登录
       const vm = this;
       vm.$api.login({userName, password}).then(res => {
-        console.log(res)
+        //获取用户信息
+        vm.$api.getUserInfo().then(res => {
+          vm.$router.push({
+            name: this.$config.homeName
+          })
+        })
+      }).catch((err) => {
+          vm.$Message.error(err.response.data.msg);
       });
-//      this.handleLogin({ userName, password }).then(res => {
-//        //获取用户信息
-//        this.getUserInfo().then(res => {
-//          this.$router.push({
-//            name: this.$config.homeName
-//          })
-//        })
-//      })
     }
   }
 }
