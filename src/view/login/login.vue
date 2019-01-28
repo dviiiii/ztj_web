@@ -18,6 +18,8 @@
 <script>
 import LoginForm from '_c/login-form'
 import { mapActions } from 'vuex'
+import { setToken } from '@/libs/util'
+
 export default {
   components: {
     LoginForm
@@ -31,8 +33,10 @@ export default {
       //点击登录
       const vm = this;
       vm.$api.login({userName, password}).then(res => {
+        setToken(res.data.token);
         //获取用户信息
         vm.$api.getUserInfo().then(res => {
+
           vm.$router.push({
             name: this.$config.homeName
           })
