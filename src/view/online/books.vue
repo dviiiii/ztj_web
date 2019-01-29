@@ -180,16 +180,14 @@
                 }
 
               vm.$api.addBook(parmas).then(res => {
-                if(res.data.status === 0) {
                   vm.$Message.success(res.data.msg);
-                }else if(res.data.status === 1) {
-                  vm.$Message.error(res.data.msg);
-                }else {
-                  vm.$Message.error('数据错误！');
-                }
               }) .catch(function (error) {
-                console.log(error);
-                vm.$Message.error('服务器错误！');
+                if(error.tipsType === 0) {
+                  vm.$Message.warning(error.data.msg);
+                }else {
+                  vm.$Message.error(error.data.msg);
+                }
+
               });
             },
 
@@ -266,7 +264,7 @@
                         }
                     })
                     .catch(function (err) {
-                        console.log(err);
+                        console.log(err.response);
                         vm.$Message.error('服务器错误！');
                     })
             },

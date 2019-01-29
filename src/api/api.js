@@ -28,7 +28,7 @@ const api = {
   mask_01_toMasking: data => { return axios.request({ url: '/hqdba/mask_01_toMasking', data, method: 'post' }) },
 
   // 增加书籍
-  addBook: data => { return axios.request({ url: '/online/book/addBook', data, method: 'post' }) },
+  addBook: data => { return axios.request({ url: '/online/book', data, method: 'post' }) },
 
   // 获取书籍信息
   getBookList: data => { return axios.request({ url: '/online/bookList', data, method: 'get' }) }
