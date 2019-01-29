@@ -24,8 +24,8 @@
                         新增书籍
                     </p>
                     <Input v-model="addBookData.bookName" placeholder="输入书籍名称"></Input>
-                    <Input v-model="addBookData.bookPageNumber" placeholder="输入书籍页码"></Input>
-                    <Select v-model="addBookData.bookSort">
+                    <Input class="reading-input" v-model="addBookData.bookPageNumber" placeholder="输入书籍页码"></Input>
+                    <Select class="reading-input" v-model="addBookData.bookSort">
                         <Option value="0">精读</Option>
                         <Option value="1">粗读</Option>
                     </Select>
@@ -82,7 +82,7 @@
                     {
                         title: '页码',
                         render: (h, params) => {
-                            return h('div',params.row.start_page + '-' + params.row.end_page);
+                            return h('div',params.row.begin_page + '-' + params.row.end_page);
                         }
                     },
                     {
@@ -100,7 +100,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.checkReview(params.row.id, params.row.review_times);
+                                            this.checkReview(params.row.id,params.row.create_date,params.row.review_num);
                                         }
                                     }
                                 }, '已复习')
@@ -120,7 +120,7 @@
                                 h('Progress', {
                                     props: {
                                         status: 'active',
-                                        percent: parseInt(params.row.progress)
+                                        percent: parseInt(params.row.bookstatus)
                                     }
                                 })
                             ])
@@ -198,7 +198,7 @@
                 let bookSumPage;
                 for(let i in vm.bookInfo) {
                     if(vm.bookInfo[i].id === vm.readingData.bookid){
-                        bookSumPage = vm.bookInfo[i].pagenumber;
+                        bookSumPage = vm.bookInfo[i].booknumber;
                         break;
                     }
                 }
@@ -222,29 +222,15 @@
                     return false;
                 }
 
-                let bookPageNumber;
+              if((parseInt(parmas.bookPageNumberE) > parseInt(parmas.pagenumber) || parseInt(parmas.bookPageNumberS) > parseInt(parmas.pagenumber))) {
+                vm.$Message.warning(`页数最大为${parmas.pagenumber}！`);
+                return false;
+              }
 
-                for(let i in vm.bookInfo) {
-                    if(vm.bookInfo[i].id === parmas.bookid  ) {
-                        parmas.bookPageNumber = vm.bookInfo[i].pagenumber;
-
-                        if((parseInt(parmas.bookPageNumberE) > parseInt(vm.bookInfo[i].pagenumber) || parseInt(parmas.bookPageNumberS) > parseInt(vm.bookInfo[i].bookPageNumber))) {
-                            vm.$Message.warning(`页数最大为${vm.bookInfo[i].pagenumber}！`);
-                            return false;
-                        }
-                    }
-                }
-
-                axios.post('/api/book/addReading',parmas)
+                vm.$api.addReading(parmas)
                     .then(function (res) {
-                        if(res.data.state === 0) {
-                            vm.$Message.success('新增成功！');
-                            vm.queryBookList();
-                        }else if(res.data.state === 1) {
-                            vm.$Message.error('新增失败！');
-                        }else {
-                            console.log(res)
-                        }
+                        vm.$Message.success(res.data.msg);
+                        vm.queryBookList();
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -256,11 +242,11 @@
                 const vm = this;
                 vm.$api.getBookList()
                     .then(function (res) {
-                        console.log(res)
                         if(res.data.length === 0) {
                             vm.$Message.error('书库里买没有书哦！');
                         }else {
-                            vm.bookInfo = res.data;
+                            vm.bookInfo = res.data.data;
+                            console.log(vm.bookInfo)
                         }
                     })
                     .catch(function (err) {
@@ -268,16 +254,13 @@
                         vm.$Message.error('服务器错误！');
                     })
             },
+
             //查询复习信息
             queryReviewInfo () {
                 const vm = this;
-                axios.get('/api/book/queryReviewInfo')
+                vm.$api.getReviewInfo()
                     .then(function (res) {
-                        if(res.data.state === 1) {
-                            vm.$Message.error('获取复习信息失败！');
-                        }else {
                             vm.reviewInfo = res.data.data;
-                        }
                     })
                     .catch(function (err) {
                         console.log(err);
@@ -285,15 +268,16 @@
                     });
             },
             //已复习
-            checkReview (id, review_times) {
+            checkReview (id, date, num) {
                 const vm = this;
 
                 const params = {
-                    id: id,
-                    review_times: review_times
+                    id,
+                    date,
+                    num
                 };
 
-                axios.post('/api/book/checkReview', params)
+                vm.$api.checkReview(params)
                     .then(function (res) {
                         if(res.data.state === 1) {
                             vm.$Message.error('更新复习信息失败！');
@@ -307,17 +291,15 @@
                         vm.$Message.error('更新复习信息失败！');
                     })
             },
+
+          //删除书籍
             deleteBook (id) {
                 const vm = this;
-                console.log(id)
-                axios.post('/api/book/deleteBook', {id: id})
+
+                vm.$api.deleteBook({id: id})
                     .then(function (res) {
-                        if(res.data.state === 1) {
-                            vm.$Message.error('删除书籍失败！');
-                        }else {
-                            vm.$Message.success('删除书籍成功！');
-                            vm.queryBookList();
-                        }
+                      vm.$Message.success(res.data.msg);
+                      vm.queryBookList();
                     })
                     .catch(function (err) {
                         console.log(err);
@@ -371,6 +353,10 @@
 
     .reading-input {
         width: 49%;
+    }
+
+    .reading-input + .reading-input {
+      margin-left: 2%;
     }
 
     .books-table {

@@ -29,8 +29,16 @@ const api = {
 
   // 增加书籍
   addBook: data => { return axios.request({ url: '/online/book', data, method: 'post' }) },
-
   // 获取书籍信息
-  getBookList: data => { return axios.request({ url: '/online/bookList', data, method: 'get' }) }
+  getBookList: data => { return axios.request({ url: '/online/bookList', data, method: 'get' }) },
+  // 增加阅读记录
+  addReading: data => { return axios.request({ url: '/online/readInfo', data, method: 'post' }) },
+  // 删除图书
+  deleteBook: data => { return axios.request({ url: '/online/deleteBook', data, method: 'post' }) },
+  // 获取复习信息
+  getReviewInfo: data => { return axios.request({ url: '/online/getReviewInfo', data, method: 'get' }) },
+  // 确认已复习
+  checkReview: data => { return axios.request({ url: '/online/checkReview', data, method: 'post' }) },
+
 }
 export default api
