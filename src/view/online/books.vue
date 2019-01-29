@@ -256,7 +256,7 @@
             //查询书籍信息
             queryBookList () {
                 const vm = this;
-                axios.get('/api/book/queryBookList')
+                vm.$api.getBookList()
                     .then(function (res) {
                         console.log(res)
                         if(res.data.length === 0) {

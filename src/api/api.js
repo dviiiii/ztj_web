@@ -5,6 +5,8 @@ const api = {
   login: data => { return axios.request({ url: '/login', data, method: 'post' }) },
   // 获取用户信息
   getUserInfo: data => { return axios.request({ url: '/userInfo',data, method: 'get' }) },
+
+
   // 增加数据库实例
   addConfig: data => { return axios.request({ url: '/hqdba/addConfig', data, method: 'post' }) },
   // 查询数据库实例
@@ -26,6 +28,9 @@ const api = {
   mask_01_toMasking: data => { return axios.request({ url: '/hqdba/mask_01_toMasking', data, method: 'post' }) },
 
   // 增加书籍
-  addBook: data => { return axios.request({ url: '/online/book/addBook', data, method: 'post' }) }
+  addBook: data => { return axios.request({ url: '/online/book/addBook', data, method: 'post' }) },
+
+  // 获取书籍信息
+  getBookList: data => { return axios.request({ url: '/online/bookList', data, method: 'get' }) }
 }
 export default api

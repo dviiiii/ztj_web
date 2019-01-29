@@ -43,7 +43,7 @@ class HttpRequest {
       this.queue[url] = true
       const token = getToken()
       if(token){
-        config.headers.Authorization = `token ${store.state.token}`;
+        config.headers['x-access-token'] = token;
       }
       return config
     }, error => {
