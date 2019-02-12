@@ -3,6 +3,24 @@
 </template>
 <script>
 export default {
-  name: 'level_2_3'
+  name: 'level_2_3',
+  data() {
+      return {
+
+      }
+  },
+  mounted () {
+    this.ftptest();
+  },
+  computed: {
+  },
+  methods: {
+    ftptest() {
+      const vm = this;
+      vm.$api.ftptest().then(res => {
+        console.log(res)
+      });
+    }
+  }
 }
 </script>

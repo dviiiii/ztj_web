@@ -181,6 +181,7 @@
 
               vm.$api.addBook(parmas).then(res => {
                   vm.$Message.success(res.data.msg);
+                  vm.queryBookList();
               }) .catch(function (error) {
                 if(error.tipsType === 0) {
                   vm.$Message.warning(error.data.msg);

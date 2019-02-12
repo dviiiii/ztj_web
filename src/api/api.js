@@ -40,5 +40,7 @@ const api = {
   // 确认已复习
   checkReview: data => { return axios.request({ url: '/online/checkReview', data, method: 'post' }) },
 
+  // ftp测试
+  ftptest: data => { return axios.request({ url: '/ftptest', data, method: 'get' }) },
 }
 export default api
