@@ -10,7 +10,7 @@
                         今日已读
                     </p>
                     <Select v-model="readingData.bookid">
-                        <Option v-for="item in bookInfo" :value="item.id" :key="item.bookname">{{ item.bookname }}</Option>
+                        <Option v-for="item in bookInfo" :value="item.id" :key="item.book_name">{{ item.book_name }}</Option>
                     </Select>
                     <Input class="reading-input" v-model="readingData.bookPageNumberS" placeholder="起始页"></Input>
                     <Input class="reading-input" v-model="readingData.bookPageNumberE" placeholder="结束页"></Input>
@@ -77,7 +77,7 @@
                 reviewColumns: [
                     {
                         title: '书名',
-                        key: 'bookname'
+                        key: 'book_name'
                     },
                     {
                         title: '页码',
@@ -111,7 +111,7 @@
                 booksColumns: [
                     {
                         title: '书名',
-                        key: 'bookname'
+                        key: 'book_name'
                     },
                     {
                         title: '进度',
@@ -120,7 +120,7 @@
                                 h('Progress', {
                                     props: {
                                         status: 'active',
-                                        percent: parseInt(params.row.bookstatus)
+                                        percent: parseInt(params.row.book_status)
                                     }
                                 })
                             ])
@@ -198,7 +198,7 @@
                 let bookSumPage;
                 for(let i in vm.bookInfo) {
                     if(vm.bookInfo[i].id === vm.readingData.bookid){
-                        bookSumPage = vm.bookInfo[i].booknumber;
+                        bookSumPage = vm.bookInfo[i].book_number;
                         break;
                     }
                 }
