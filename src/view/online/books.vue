@@ -52,7 +52,6 @@
             </Card>
         </div>
 
-
     </div>
 </template>
 
