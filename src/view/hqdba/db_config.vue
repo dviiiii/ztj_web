@@ -57,6 +57,9 @@
           <span class="col-text">IP地址/HOST: </span><Input v-model="config_params.db_host"  clearable style="width: 200px" />
         </Col>
         <Col span="24" class="row-col">
+          <span class="col-text">VIP: </span><Input v-model="config_params.db_vip"  clearable style="width: 200px" />
+        </Col>
+        <Col span="24" class="row-col">
           <span class="col-text">用户/USER: </span><Input v-model="config_params.db_user"  clearable style="width: 200px" />
         </Col>
         <Col span="24" class="row-col">
@@ -67,6 +70,9 @@
         </Col>
         <Col span="24" class="row-col">
           <span class="col-text">SID: </span><Input v-model="config_params.db_sid"  clearable style="width: 200px" />
+        </Col>
+        <Col span="24" class="row-col">
+          <span class="col-text">备份地址: </span><Input v-model="config_params.db_bk_addr"  clearable style="width: 200px" />
         </Col>
       </Row>
     </Modal>
@@ -86,10 +92,12 @@ export default {
         db_name: '',
         db_type: '',
         db_host: '',
+        db_vip: '',
         db_user: '',
         db_password: '',
         db_port: '',
-        db_sid: ''
+        db_sid: '',
+        db_bk_addr: ''
       },
       db_type_data: [{
         value: 'mysql',
@@ -114,6 +122,9 @@ export default {
         title: 'IP地址/HOST',
         key: 'db_host'
       },{
+        title: 'VIP',
+        key: 'db_vip'
+      },{
         title: '用户/USER',
         key: 'db_user'
       },{
@@ -125,6 +136,9 @@ export default {
       },{
         title: 'SID',
         key: 'db_sid'
+      },{
+        title: '备份地址',
+        key: 'db_bk_addr'
       },{
         title: '操作',
         key: '',
@@ -138,8 +152,19 @@ export default {
               },
               on: {
                 click: () => {
-                    console.log(params)
-                  this.removeConfig(params.row.id)
+                  const vm = this;
+                  vm.$Modal.confirm({
+                      title: '删除',
+                      content: '<p>是否确认删除实例信息？</p>',
+                      onOk: () => {
+                        vm.removeConfig(params.row.id);
+                      },
+                      onCancel: () => {
+
+                      }
+                    });
+                  //   console.log(params)
+                  // this.removeConfig(params.row.id)
                 }
               }
             }, '删除')
@@ -165,7 +190,7 @@ export default {
       const vm = this;
       console.log(vm.config_params)
       vm.$api.addConfig(vm.config_params).then(res => {
-        console.log(res)
+        vm.$Message.success('新增成功！');
         vm.queryConfig();
       });
     },
@@ -174,6 +199,7 @@ export default {
     removeConfig(id) {
       const vm = this;
       vm.$api.removeConfig({id: id}).then(res => {
+        vm.$Message.success('删除成功！');
         vm.queryConfig();
       }).catch((err) => {
           console.log(err)
@@ -185,8 +211,8 @@ export default {
       const vm = this;
 
       vm.$api.queryConfig().then(res => {
-          vm.config_data = res.data.list;
-        console.log(res)
+          vm.config_data = res.data.data;
+        console.log(vm.config_data)
       });
     }
   }

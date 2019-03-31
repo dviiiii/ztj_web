@@ -7,12 +7,17 @@ const api = {
   getUserInfo: data => { return axios.request({ url: '/userInfo',data, method: 'get' }) },
 
 
+  /*************************   hqdba模块   begin********************************************/
   // 增加数据库实例
   addConfig: data => { return axios.request({ url: '/hqdba/addConfig', data, method: 'post' }) },
   // 查询数据库实例
-  queryConfig: data => { return axios.request({ url: '/hqdba/queryConfig', data, method: 'post' }) },
+  queryConfig: data => { return axios.request({ url: '/hqdba/queryConfig', data, method: 'get' }) },
   // 删除数据库实例
   removeConfig: data => { return axios.request({ url: '/hqdba/removeConfig', data, method: 'post' }) },
+  // 查询当前备份信息
+  queryBkInfo: data => { return axios.request({ url: '/hqdba/queryBkInfo', data, method: 'get' }) },
+
+
   // 查询选择的实例中所有的表
   queryAllTables: data => { return axios.request({ url: '/hqdba/queryAllTables', data, method: 'post' }) },
   // 查询选择的实例中所有的表
@@ -26,6 +31,8 @@ const api = {
   mask_01_queryNum: data => { return axios.request({ url: '/hqdba/mask_01_queryNum', data, method: 'post' }) },
   // NC财务脱敏
   mask_01_toMasking: data => { return axios.request({ url: '/hqdba/mask_01_toMasking', data, method: 'post' }) },
+  /*************************   hqdba模块   end********************************************/
+
 
   // 增加书籍
   addBook: data => { return axios.request({ url: '/online/book', data, method: 'post' }) },
