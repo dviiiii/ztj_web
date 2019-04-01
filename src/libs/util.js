@@ -346,3 +346,19 @@ export const localSave = (key, value) => {
 export const localRead = (key) => {
   return localStorage.getItem(key) || ''
 }
+
+/**
+ * @description 简单的日期格式化
+ * @param {*} 日期对象
+ */
+export const dateFormat = (date) => {
+  const thisDate = new Date(date);
+  const Year = thisDate.getFullYear();
+  const Month = thisDate.getMonth()+1 <10? '0'+(thisDate.getMonth()+1): thisDate.getMonth()+1;
+  const Day = thisDate.getDate() <10? '0'+thisDate.getDate(): thisDate.getDate();
+  const H = thisDate.getHours() <10? '0'+thisDate.getHours(): thisDate.getHours();
+  const M = thisDate.getMinutes() <10? '0'+thisDate.getMinutes(): thisDate.getMinutes();
+  const S = thisDate.getSeconds() <10? '0'+thisDate.getSeconds(): thisDate.getSeconds();
+  const newDate = Year + '-' + Month + '-' + Day + ' ' + H + ':' + M + ':' + S;
+  return newDate
+}
