@@ -45,7 +45,7 @@ export default {
       bk_info_columns:[{
         title: '行号',
         type: 'index',
-        width: '60'
+        width: 60
       },{
         title: '描述名称',
         key: 'db_describe'
@@ -100,9 +100,9 @@ export default {
             return h('Tag', {
               attrs: {
                 color: 'warning',
-                title: '文件大小[' + params.row.file_size + 'KB]'
+                title: params.row.file_size + 'KB'
               }
-            }, '数据异常');
+            }, params.row.file_size + 'KB');
           }else {
             return h('div', params.row.file_size);
           }
