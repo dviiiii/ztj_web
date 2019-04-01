@@ -18,6 +18,17 @@
   .row-col {
     margin-bottom: 10px;
   }
+
+  .page {
+    margin: 10px;
+    float: right;
+  }
+
+  .date-picker {
+    float: right;
+    padding: 10px;
+    width: 200px;
+  }
 </style>
 <template>
   <div  class="content">
@@ -27,10 +38,16 @@
         <div class="floatL">
           <Badge status="success" text="备份列表" />
         </div>
+        <DatePicker @on-change="selectDate" class="date-picker" type="date" placeholder="选择日期"></DatePicker>
       </div>
     </Col>
     <Col span="24">
-      <Table width="100%" border :columns="bk_info_columns" :data="bk_info"></Table>
+      <Spin size="large" fix v-if="spinShow"></Spin>
+      <Table width="100%" :height="tHeight" border :columns="bk_info_columns" :data="bk_info"></Table>
+    </Col>
+    <Col span="24">
+
+      <Page show-total @on-change="pageNumChange" class="page"  :total="page.total" :page-size="page.pageSize" :current="page.pageNum" />
     </Col>
   </Row>
   </div>
@@ -42,28 +59,83 @@ export default {
   data () {
     return {
       bk_info: [],
-      bk_info_columns:[{
+      tHeight: 500,
+      bk_info_columns: [],
+      page: {
+        pageSize: 40,
+        pageNum: 1,
+        date: dateFormat(new Date()),
+        total: 0
+      },
+      spinShow: true
+    }
+  },
+  mounted () {
+    const vm = this;
+
+    vm.initPage();
+  },
+  methods: {
+
+    //初始化页面
+    initPage() {
+      const vm = this;
+      vm.setTHeight();
+      vm.setColums();
+      vm.queryBkInfo();
+    },
+
+    //设置表格高度
+    setTHeight() {
+      const wH = window.innerHeight;
+      this.tHeight = wH - 250;
+    },
+
+    //切换页码
+    pageNumChange(num) {
+      const vm = this;
+      vm.page.pageNum = num;
+      vm.queryBkInfo();
+    },
+
+    //选择日期
+    selectDate(date) {
+      const vm = this;
+      vm.page.date = date + ' 08:00:00'
+      vm.queryBkInfo();
+    },
+
+    //设置表格字段
+    setColums() {
+      const vm = this;
+      vm.bk_info_columns = [{
         title: '行号',
         type: 'index',
         width: 60
       },{
         title: '描述名称',
-        key: 'db_describe'
+        key: 'db_describe',
+        width: 160
       },{
-      title: '实例名称',
-        key: 'db_name'
-    },{
-      title: '实例类型',
-        key: 'db_type'
-    },{
+        title: '实例名称',
+        key: 'db_name',
+        width: 160
+      },{
+        title: '实例类型',
+        key: 'db_type',
+        width: 100
+      },{
         title: 'VIP',
-        key: 'db_vip'
+        key: 'db_vip',
+        width: 120
       },{
-      title: 'IP地址/HOST',
-        key: 'db_host'
-    },{
+        title: 'IP地址/HOST',
+        key: 'db_host',
+        width: 120
+      },{
         title: '文件名',
         key: 'file_name',
+        width: 280,
         render: (h, params) => {
           if(!params.row.file_name) {
             return h('Tag', {
@@ -77,8 +149,9 @@ export default {
           }
         }
       },{
-        title: '文件大小',
+        title: '文件大小(KB)',
         key: 'file_size',
+        width: 160,
         render: (h, params) => {
           const vm = this;
           const thisVIP = params.row.db_vip;
@@ -110,27 +183,25 @@ export default {
       },{
         title: '创建时间',
         key: 'create_time',
+        width: 180,
         render: (h, params) => {
           return h('div', dateFormat(params.row.create_time));
         }
       },{
-      title: '备份地址',
-        key: 'db_bk_addr'
-    }],
-    }
-  },
-  mounted () {
-    const vm = this;
-    vm.queryBkInfo();
-  },
-  methods: {
+        title: '备份地址',
+        key: 'db_bk_addr',
+        width: 280,
+      }];
+    },
+
     //查询备份文件信息
     queryBkInfo() {
       const vm = this;
-
-      vm.$api.queryBkInfo().then(res => {
-
+      vm.spinShow = true;
+      vm.$api.queryBkInfo(vm.page).then(res => {
+        vm.spinShow = false;
         vm.bk_info = res.data.data;
+        vm.page.total = res.data.total
       });
     },
   }

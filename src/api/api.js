@@ -15,7 +15,7 @@ const api = {
   // 删除数据库实例
   removeConfig: data => { return axios.request({ url: '/hqdba/removeConfig', data, method: 'post' }) },
   // 查询当前备份信息
-  queryBkInfo: data => { return axios.request({ url: '/hqdba/queryBkInfo', data, method: 'get' }) },
+  queryBkInfo: data => { return axios.request({ url: '/hqdba/queryBkInfo', data, method: 'post' }) },
 
 
   // 查询选择的实例中所有的表
@@ -47,7 +47,5 @@ const api = {
   // 确认已复习
   checkReview: data => { return axios.request({ url: '/online/checkReview', data, method: 'post' }) },
 
-  // ftp测试
-  ftptest: data => { return axios.request({ url: '/ftptest', data, method: 'get' }) },
 }
 export default api
