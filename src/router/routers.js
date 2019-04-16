@@ -354,66 +354,6 @@ export default [
         },
         component: () => import('@/view/hqdba/db_config.vue')
       },
-      {
-        path: 'db_masking',
-        name: '数据脱敏',
-        meta: {
-          // access: ['super_admin'],
-          icon: 'md-funnel',
-          showAlways: true,
-          title: '数据脱敏'
-        },
-        component: parentView,
-        children: [
-          {
-            path: 'db_masking_lv1',
-            name: '简单数据脱敏',
-            meta: {
-              icon: 'md-funnel',
-              title: '简单数据脱敏'
-            },
-            component: () => import('@/view/hqdba/db_masking/db_masking_lv1.vue')
-          },
-          {
-            path: 'db_masking_lv2',
-            name: '特殊数据脱敏',
-            meta: {
-              icon: 'md-funnel',
-              title: '特殊数据脱敏'
-            },
-            component: () => import('@/view/hqdba/db_masking/db_masking_lv2.vue')
-          }
-        ]
-      },
-      {
-        path: 'db_backup',
-        name: '数据备份',
-        meta: {
-          icon: 'md-funnel',
-          title: '数据备份'
-        },
-        component: () => import('@/view/hqdba/db_backup.vue')
-      }
-    ]
-  },
-  {
-    path: '/online',
-    name: 'online',
-    meta: {
-      icon: 'md-menu',
-      title: 'online'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'ol_books',
-        name: '不如读书',
-        meta: {
-          icon: 'md-funnel',
-          title: '不如读书'
-        },
-        component: () => import('@/view/online/books.vue')
-      },
       // {
       //   path: 'db_masking',
       //   name: '数据脱敏',
@@ -433,20 +373,80 @@ export default [
       //         title: '简单数据脱敏'
       //       },
       //       component: () => import('@/view/hqdba/db_masking/db_masking_lv1.vue')
+      //     },
+      //     {
+      //       path: 'db_masking_lv2',
+      //       name: '特殊数据脱敏',
+      //       meta: {
+      //         icon: 'md-funnel',
+      //         title: '特殊数据脱敏'
+      //       },
+      //       component: () => import('@/view/hqdba/db_masking/db_masking_lv2.vue')
       //     }
       //   ]
       // },
-      // {
-      //   path: 'db_backup',
-      //   name: '数据备份',
-      //   meta: {
-      //     icon: 'md-funnel',
-      //     title: '数据备份'
-      //   },
-      //   component: () => import('@/view/hqdba/db_backup.vue')
-      // }
+      {
+        path: 'db_backup',
+        name: '数据备份',
+        meta: {
+          icon: 'md-funnel',
+          title: '数据备份'
+        },
+        component: () => import('@/view/hqdba/db_backup.vue')
+      }
     ]
   },
+  // {
+  //   path: '/online',
+  //   name: 'online',
+  //   meta: {
+  //     icon: 'md-menu',
+  //     title: 'online'
+  //   },
+  //   component: Main,
+  //   children: [
+  //     {
+  //       path: 'ol_books',
+  //       name: '不如读书',
+  //       meta: {
+  //         icon: 'md-funnel',
+  //         title: '不如读书'
+  //       },
+  //       component: () => import('@/view/online/books.vue')
+  //     },
+  //     {
+  //       path: 'db_masking',
+  //       name: '数据脱敏',
+  //       meta: {
+  //         // access: ['super_admin'],
+  //         icon: 'md-funnel',
+  //         showAlways: true,
+  //         title: '数据脱敏'
+  //       },
+  //       component: parentView,
+  //       children: [
+  //         {
+  //           path: 'db_masking_lv1',
+  //           name: '简单数据脱敏',
+  //           meta: {
+  //             icon: 'md-funnel',
+  //             title: '简单数据脱敏'
+  //           },
+  //           component: () => import('@/view/hqdba/db_masking/db_masking_lv1.vue')
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'db_backup',
+  //       name: '数据备份',
+  //       meta: {
+  //         icon: 'md-funnel',
+  //         title: '数据备份'
+  //       },
+  //       component: () => import('@/view/hqdba/db_backup.vue')
+  //     }
+  //   ]
+  // },
   {
     path: '/argu',
     name: 'argu',
