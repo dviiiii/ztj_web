@@ -346,13 +346,13 @@ export default [
     component: Main,
     children: [
       {
-        path: 'db_config',
+        path: 'db_backup_config',
         name: '数据库配置',
         meta: {
           icon: 'md-funnel',
           title: '数据库配置'
         },
-        component: () => import('@/view/hqdba/db_config.vue')
+        component: () => import('@/view/hqdba/db_backup_config.vue')
       },
       // {
       //   path: 'db_masking',

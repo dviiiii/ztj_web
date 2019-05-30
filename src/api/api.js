@@ -11,7 +11,7 @@ const api = {
   // 增加数据库实例
   addConfig: data => { return axios.request({ url: '/hqdba/addConfig', data, method: 'post' }) },
   // 查询数据库实例
-  queryConfig: data => { return axios.request({ url: '/hqdba/queryConfig', data, method: 'get' }) },
+  queryConfig: data => { return axios.request({ url: '/hqdba/queryConfig', data, method: 'post' }) },
   // 删除数据库实例
   removeConfig: data => { return axios.request({ url: '/hqdba/removeConfig', data, method: 'post' }) },
   // 查询当前备份信息

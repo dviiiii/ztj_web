@@ -18,6 +18,11 @@
   .row-col {
     margin-bottom: 10px;
   }
+
+  .page {
+    margin: 10px;
+    float: right;
+  }
 </style>
 <template>
   <div class="content">
@@ -33,7 +38,12 @@
         </div>
       </Col>
       <Col span="24">
+      <Spin size="large" fix v-if="spinShow"></Spin>
         <Table border :columns="config_columns" :data="config_data"></Table>
+      </Col>
+
+      <Col span="24">
+      <Page show-total @on-change="pageNumChange" class="page"  :total="page.total" :page-size="page.pageSize" :current="page.pageNum" />
       </Col>
     </Row>
 
@@ -45,9 +55,9 @@
         <Col span="24" class="row-col">
         <span class="col-text">描述名称: </span><Input v-model="config_params.db_describe"  clearable style="width: 200px" />
         </Col>
-        <Col span="24" class="row-col">
-        <span class="col-text">实例名称: </span><Input v-model="config_params.db_name"  clearable style="width: 200px" />
-      </Col>
+        <!--<Col span="24" class="row-col">-->
+        <!--<span class="col-text">实例名称: </span><Input v-model="config_params.db_name"  clearable style="width: 200px" />-->
+      <!--</Col>-->
         <Col span="24" class="row-col">
           <span class="col-text">实例类型: </span><Select v-model="config_params.db_type" style="width:200px">
           <Option v-for="item in db_type_data" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -59,18 +69,18 @@
         <Col span="24" class="row-col">
           <span class="col-text">VIP: </span><Input v-model="config_params.db_vip"  clearable style="width: 200px" />
         </Col>
-        <Col span="24" class="row-col">
-          <span class="col-text">用户/USER: </span><Input v-model="config_params.db_user"  clearable style="width: 200px" />
-        </Col>
-        <Col span="24" class="row-col">
-          <span class="col-text">密码/PASSWORD: </span><Input v-model="config_params.db_password"  clearable style="width: 200px" />
-        </Col>
-        <Col span="24" class="row-col">
-          <span class="col-text">端口号/PORT: </span><Input v-model="config_params.db_port"  clearable style="width: 200px" />
-        </Col>
-        <Col span="24" class="row-col">
-          <span class="col-text">SID: </span><Input v-model="config_params.db_sid"  clearable style="width: 200px" />
-        </Col>
+        <!--<Col span="24" class="row-col">-->
+          <!--<span class="col-text">用户/USER: </span><Input v-model="config_params.db_user"  clearable style="width: 200px" />-->
+        <!--</Col>-->
+        <!--<Col span="24" class="row-col">-->
+          <!--<span class="col-text">密码/PASSWORD: </span><Input v-model="config_params.db_password"  clearable style="width: 200px" />-->
+        <!--</Col>-->
+        <!--<Col span="24" class="row-col">-->
+          <!--<span class="col-text">端口号/PORT: </span><Input v-model="config_params.db_port"  clearable style="width: 200px" />-->
+        <!--</Col>-->
+        <!--<Col span="24" class="row-col">-->
+          <!--<span class="col-text">SID: </span><Input v-model="config_params.db_sid"  clearable style="width: 200px" />-->
+        <!--</Col>-->
         <Col span="24" class="row-col">
           <span class="col-text">备份地址: </span><Input v-model="config_params.db_bk_addr"  clearable style="width: 200px" />
         </Col>
@@ -86,6 +96,12 @@ export default {
   name: 'db_config',
   data () {
     return {
+      page: {
+        pageSize: 10,
+        pageNum: 1,
+        total: 0
+      },
+      spinShow: true,
       config_modal: false,
       config_params: {
         db_describe: '',
@@ -110,12 +126,14 @@ export default {
         label: 'oracle',
       },],
       config_columns:[{
-        title: '描述名称',
+        title: '系统名称',
         key: 'db_describe'
-      },{
-        title: '实例名称',
+      },
+        {
+        title: '数据库名称',
         key: 'db_name'
-      },{
+      },
+        {
         title: '实例类型',
         key: 'db_type'
       },{
@@ -124,22 +142,28 @@ export default {
       },{
         title: 'VIP',
         key: 'db_vip'
-      },{
-        title: '用户/USER',
-        key: 'db_user'
-      },{
-        title: '密码/PASSWORD',
-        key: 'db_password'
-      },{
-        title: '端口号/PORT',
-        key: 'db_port'
-      },{
-        title: 'SID',
-        key: 'db_sid'
-      },{
+      },
+//        {
+//        title: '用户/USER',
+//        key: 'db_user'
+//      },{
+//        title: '密码/PASSWORD',
+//        key: 'db_password'
+//      },{
+//        title: '端口号/PORT',
+//        key: 'db_port'
+//      },{
+//        title: 'SID',
+//        key: 'db_sid'
+//      },
+
+        {
         title: '备份地址',
         key: 'db_bk_addr'
       },{
+          title: '备份文件标志',
+          key: 'db_bk_mark'
+        },{
         title: '操作',
         key: '',
         align: 'center',
@@ -188,7 +212,6 @@ export default {
     //新增实例
     addConfig() {
       const vm = this;
-      console.log(vm.config_params)
       vm.$api.addConfig(vm.config_params).then(res => {
         vm.$Message.success('新增成功！');
         vm.queryConfig();
@@ -210,11 +233,20 @@ export default {
     queryConfig() {
       const vm = this;
 
-      vm.$api.queryConfig().then(res => {
+      vm.spinShow= true;
+      vm.$api.queryConfig(vm.page).then(res => {
           vm.config_data = res.data.data;
-        console.log(vm.config_data)
+          vm.page.total = res.data.total;
+          vm.spinShow = false;
       });
-    }
+    },
+
+    //切换页码
+    pageNumChange(num) {
+      const vm = this;
+      vm.page.pageNum = num;
+      vm.queryConfig();
+    },
   }
 }
 </script>

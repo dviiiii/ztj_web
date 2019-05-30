@@ -116,15 +116,17 @@ export default {
         title: '描述名称',
         key: 'db_describe',
         width: 160
-      },{
-        title: '实例名称',
-        key: 'db_name',
-        width: 160
-      },{
-        title: '实例类型',
-        key: 'db_type',
-        width: 100
-      },{
+      },
+//        {
+//        title: '实例名称',
+//        key: 'db_name',
+//        width: 160
+//      },{
+//        title: '实例类型',
+//        key: 'db_type',
+//        width: 100
+//      },
+        {
         title: 'VIP',
         key: 'db_vip',
         width: 120
@@ -160,7 +162,7 @@ export default {
           const preVIP = params.index -1 >= 0? vm.bk_info[params.index -1].db_vip : '';
           const preFileName = params.index -1 >= 0?vm.bk_info[params.index -1].file_name : '';
           const preFileSize = params.index -1 >= 0?vm.bk_info[params.index -1].file_size: '';
-          if(thisVIP === preVIP && thisFileName === preFileName && thisFileSize !== preFileSize) {
+          if(thisVIP === preVIP && thisFileName === preFileName && Math.abs(thisFileSize - preFileSize) > 1) {
             return h('Tag', {
               attrs: {
                 color: 'error',
