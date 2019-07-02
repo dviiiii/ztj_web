@@ -336,66 +336,66 @@ export default [
   //     }
   //   ]
   // },
-  {
-    path: '/hqdba',
-    name: 'hqdba',
-    meta: {
-      icon: 'md-menu',
-      title: 'hqdba'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'db_config',
-        name: '数据库配置',
-        meta: {
-          icon: 'md-funnel',
-          title: '数据库配置'
-        },
-        component: () => import('@/view/hqdba/db_config.vue')
-      },
-      {
-        path: 'db_masking',
-        name: '数据脱敏',
-        meta: {
-          // access: ['super_admin'],
-          icon: 'md-funnel',
-          showAlways: true,
-          title: '数据脱敏'
-        },
-        component: parentView,
-        children: [
-          {
-            path: 'db_masking_lv1',
-            name: '简单数据脱敏',
-            meta: {
-              icon: 'md-funnel',
-              title: '简单数据脱敏'
-            },
-            component: () => import('@/view/hqdba/db_masking/db_masking_lv1.vue')
-          },
-          {
-            path: 'db_masking_lv2',
-            name: '特殊数据脱敏',
-            meta: {
-              icon: 'md-funnel',
-              title: '特殊数据脱敏'
-            },
-            component: () => import('@/view/hqdba/db_masking/db_masking_lv2.vue')
-          }
-        ]
-      },
-      {
-        path: 'db_backup',
-        name: '数据备份',
-        meta: {
-          icon: 'md-funnel',
-          title: '数据备份'
-        },
-        component: () => import('@/view/hqdba/db_backup.vue')
-      }
-    ]
-  },
+  // {
+  //   path: '/hqdba',
+  //   name: 'hqdba',
+  //   meta: {
+  //     icon: 'md-menu',
+  //     title: 'hqdba'
+  //   },
+  //   component: Main,
+  //   children: [
+  //     {
+  //       path: 'db_config',
+  //       name: '数据库配置',
+  //       meta: {
+  //         icon: 'md-funnel',
+  //         title: '数据库配置'
+  //       },
+  //       component: () => import('@/view/hqdba/db_config.vue')
+  //     },
+  //     {
+  //       path: 'db_masking',
+  //       name: '数据脱敏',
+  //       meta: {
+  //         // access: ['super_admin'],
+  //         icon: 'md-funnel',
+  //         showAlways: true,
+  //         title: '数据脱敏'
+  //       },
+  //       component: parentView,
+  //       children: [
+  //         {
+  //           path: 'db_masking_lv1',
+  //           name: '简单数据脱敏',
+  //           meta: {
+  //             icon: 'md-funnel',
+  //             title: '简单数据脱敏'
+  //           },
+  //           component: () => import('@/view/hqdba/db_masking/db_masking_lv1.vue')
+  //         },
+  //         {
+  //           path: 'db_masking_lv2',
+  //           name: '特殊数据脱敏',
+  //           meta: {
+  //             icon: 'md-funnel',
+  //             title: '特殊数据脱敏'
+  //           },
+  //           component: () => import('@/view/hqdba/db_masking/db_masking_lv2.vue')
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'db_backup',
+  //       name: '数据备份',
+  //       meta: {
+  //         icon: 'md-funnel',
+  //         title: '数据备份'
+  //       },
+  //       component: () => import('@/view/hqdba/db_backup.vue')
+  //     }
+  //   ]
+  // },
   {
     path: '/online',
     name: 'online',
