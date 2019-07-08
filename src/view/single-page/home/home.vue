@@ -1,10 +1,10 @@
 <template>
   <div>
     <Row :gutter="20">
-      <i-col :xs="12" :md="8" :lg="4" v-for="(infor, i) in inforCardData" :key="`infor-${i}`" style="height: 120px;padding-bottom: 10px;">
-        <infor-card shadow :color="infor.color" :icon="infor.icon" :icon-size="36">
-          <count-to :end="infor.count" count-class="count-style"/>
-          <p>{{ infor.title }}</p>
+      <i-col :xs="12" :md="8" :lg="4" style="height: 120px;padding-bottom: 10px;">
+        <infor-card shadow color="#19be6b" icon="md-locate" :icon-size="36">
+          <count-to :end="rank" count-class="count-style"/>
+          <p>当前积分</p>
         </infor-card>
       </i-col>
     </Row>
@@ -44,13 +44,14 @@ export default {
   },
   data () {
     return {
+      rank: 0,
       inforCardData: [
-        { title: '新增用户', icon: 'md-person-add', count: 803, color: '#2d8cf0' },
-        { title: '累计点击', icon: 'md-locate', count: 232, color: '#19be6b' },
-        { title: '新增问答', icon: 'md-help-circle', count: 142, color: '#ff9900' },
-        { title: '分享统计', icon: 'md-share', count: 657, color: '#ed3f14' },
-        { title: '新增互动', icon: 'md-chatbubbles', count: 12, color: '#E46CBB' },
-        { title: '新增页面', icon: 'md-map', count: 14, color: '#9A66E4' }
+        { title: '当前积分', icon: 'md-locate', count: 0, color: '#19be6b' },
+        // { title: '新增问答', icon: 'md-help-circle', count: 142, color: '#ff9900' },
+        // { title: '分享统计', icon: 'md-share', count: 657, color: '#ed3f14' },
+        // { title: '新增互动', icon: 'md-chatbubbles', count: 12, color: '#E46CBB' },
+        // { title: '新增页面', icon: 'md-map', count: 14, color: '#9A66E4' },
+        // { title: '新增用户', icon: 'md-person-add', count: 803, color: '#2d8cf0' },
       ],
       pieData: [
         {value: 335, name: '直接访问'},
@@ -71,7 +72,43 @@ export default {
     }
   },
   mounted () {
-    //
+    this.getRank();
+    this.updateRank(0);
+  },
+  methods: {
+    //获取当前积分
+    getRank () {
+      const vm = this;
+      vm.$api.getRank()
+        .then(function (res) {
+          if(res.data.status === 0) {
+            vm.rank = res.data.data;
+          }else {
+            vm.$Message.error(res.data.data);
+          }
+        })
+        .catch(function (err) {
+          console.log(err.response);
+          vm.$Message.error('服务器错误！');
+        })
+    },
+
+    //获取当前积分
+    updateRank (val) {
+      const vm = this;
+
+      vm.$api.updateRank({rankVal: val})
+        .then(function (res) {
+          console.log(res)
+          if(res.status === 0) {
+            vm.rank = res.data;
+          }
+        })
+        .catch(function (err) {
+          console.log(err.response);
+          vm.$Message.error('服务器错误！');
+        })
+    },
   }
 }
 </script>

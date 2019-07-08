@@ -414,37 +414,6 @@ export default [
         },
         component: () => import('@/view/online/books.vue')
       },
-      // {
-      //   path: 'db_masking',
-      //   name: '数据脱敏',
-      //   meta: {
-      //     // access: ['super_admin'],
-      //     icon: 'md-funnel',
-      //     showAlways: true,
-      //     title: '数据脱敏'
-      //   },
-      //   component: parentView,
-      //   children: [
-      //     {
-      //       path: 'db_masking_lv1',
-      //       name: '简单数据脱敏',
-      //       meta: {
-      //         icon: 'md-funnel',
-      //         title: '简单数据脱敏'
-      //       },
-      //       component: () => import('@/view/hqdba/db_masking/db_masking_lv1.vue')
-      //     }
-      //   ]
-      // },
-      // {
-      //   path: 'db_backup',
-      //   name: '数据备份',
-      //   meta: {
-      //     icon: 'md-funnel',
-      //     title: '数据备份'
-      //   },
-      //   component: () => import('@/view/hqdba/db_backup.vue')
-      // }
     ]
   },
   {
