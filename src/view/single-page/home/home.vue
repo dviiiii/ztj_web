@@ -93,6 +93,7 @@ export default {
         })
     },
 
+
     //获取当前积分
     updateRank (val) {
       const vm = this;
