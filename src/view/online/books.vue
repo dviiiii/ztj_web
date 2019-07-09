@@ -14,6 +14,14 @@
                     </Select>
                     <Input class="reading-input" v-model="readingData.bookPageNumberS" placeholder="起始页"></Input>
                     <Input class="reading-input" v-model="readingData.bookPageNumberE" placeholder="结束页"></Input>
+
+                    <RadioGroup class="reading_rank" v-model="reading_rank" type="button" size="large">
+                      <Radio label="50">+50</Radio>
+                      <Radio label="100">+100</Radio>
+                      <Radio label="150">+150</Radio>
+                      <Radio label="200">+200</Radio>
+                    </RadioGroup>
+
                     <Button type="primary" @click="addRead">确认</Button>
                 </Card>
             </div>
@@ -61,6 +69,7 @@
         name: 'books',
         data () {
             return {
+                reading_rank: '50',
                 addBookData: {
                     bookName: '',
                     bookPageNumber: '',
@@ -207,7 +216,8 @@
                     bookid: vm.readingData.bookid,
                     bookPageNumberS: vm.readingData.bookPageNumberS,
                     bookPageNumberE: vm.readingData.bookPageNumberE,
-                    pagenumber: bookSumPage
+                    pagenumber: bookSumPage,
+                    reading_rank: vm.reading_rank
                 };
                 if(!parmas.bookid) {
                     vm.$Message.warning('书呢？');
@@ -362,6 +372,12 @@
     .books-table {
         width: 95%;
         margin: 30px auto;
+    }
+
+    .reading_rank {
+      position: absolute;
+      left: 15px;
+      bottom: 12px;
     }
 
 

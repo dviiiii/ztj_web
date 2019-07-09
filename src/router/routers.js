@@ -397,6 +397,26 @@ export default [
   //   ]
   // },
   {
+    path: '/ol',
+    name: 'ol',
+    meta: {
+      icon: 'md-menu',
+      title: 'ol'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'ol_task',
+        name: '核心科技',
+        meta: {
+          icon: 'md-funnel',
+          title: '核心科技'
+        },
+        component: () => import('@/view/online/tasks.vue')
+      },
+    ]
+  },
+  {
     path: '/online',
     name: 'online',
     meta: {

@@ -24,9 +24,9 @@ const api = {
   /******************      book模块   end       *****************************/
 
   /******************      ol模块          *****************************/
-  // 增加书籍
+  // 查询积分
   getRank: data => { return axios.request({ url: '/ol/getRank', data, method: 'get' }) },
-  // 获取书籍信息
+  // 更新积分
   updateRank: data => { return axios.request({ url: '/ol/updateRank', data, method: 'post' }) },
 
   /******************      ol模块    end      *****************************/
