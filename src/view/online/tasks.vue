@@ -38,9 +38,21 @@
             }
         },
         mounted () {
-
+          this.source_bk_test();
         },
         methods: {
+          //自动还原测试
+          source_bk_test () {
+            const vm = this;
+            vm.$api.source_bk_test()
+              .then(function (res) {
+                console.log(res)
+              })
+              .catch(function (err) {
+                console.log(err.response);
+                vm.$Message.error('服务器错误！');
+              })
+          },
 
         }
     };

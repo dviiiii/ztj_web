@@ -3,9 +3,9 @@ import axios from '@/libs/api.request'
 const api = {
   /******************      login模块          *****************************/
   // 用户登录
-  login: data => { return axios.request({ url: '/login', data, method: 'post' }) },
+  login: data => { return axios.request({ url: 'ol/login/', data, method: 'post' }) },
   // 获取用户信息
-  getUserInfo: data => { return axios.request({ url: '/userInfo',data, method: 'get' }) },
+  getUserInfo: data => { return axios.request({ url: 'ol/userInfo/',data, method: 'get' }) },
   /******************      login模块  end        *****************************/
 
   /******************      book模块          *****************************/
@@ -30,5 +30,7 @@ const api = {
   updateRank: data => { return axios.request({ url: '/ol/updateRank', data, method: 'post' }) },
 
   /******************      ol模块    end      *****************************/
+
+  source_bk_test: data => { return axios.request({ url: '/ol/source_bk_test/', data, method: 'post' }) },
 }
 export default api

@@ -33,14 +33,15 @@ export default {
       //点击登录
       const vm = this;
       vm.$api.login({userName, password}).then(res => {
-        setToken(res.data.token);
-        //获取用户信息
-        vm.$api.getUserInfo().then(res => {
-
-          vm.$router.push({
-            name: this.$config.homeName
-          })
-        })
+        console.log(res)
+        // setToken(res.data.token);
+        // //获取用户信息
+        // vm.$api.getUserInfo().then(res => {
+        //
+        //   vm.$router.push({
+        //     name: this.$config.homeName
+        //   })
+        // })
       }).catch((err) => {
           vm.$Message.error(err.response.data.msg);
       });
