@@ -252,10 +252,10 @@
                 const vm = this;
                 vm.$api.getBookList()
                     .then(function (res) {
-                        if(res.data.length === 0) {
+                        if(res.data.list.length === 0) {
                             vm.$Message.error('书库里买没有书哦！');
                         }else {
-                            vm.bookInfo = res.data.data;
+                            vm.bookInfo = res.data.list;
                             console.log(vm.bookInfo)
                         }
                     })

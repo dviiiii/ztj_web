@@ -34,14 +34,18 @@ export default {
       const vm = this;
       vm.$api.login({userName, password}).then(res => {
         console.log(res)
-        // setToken(res.data.token);
-        // //获取用户信息
-        // vm.$api.getUserInfo().then(res => {
-        //
-        //   vm.$router.push({
-        //     name: this.$config.homeName
-        //   })
-        // })
+        if(res.data.status === 0) {
+          vm.$Message.success('登录成功！')
+        }else {
+          vm.$Message.error('账号密码错误！')
+        }
+        setToken(res.data.token);
+        //获取用户信息
+        vm.$api.getUserInfo().then(res => {
+          vm.$router.push({
+            name: this.$config.homeName
+          })
+        })
       }).catch((err) => {
           vm.$Message.error(err.response.data.msg);
       });

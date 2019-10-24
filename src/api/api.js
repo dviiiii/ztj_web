@@ -5,14 +5,14 @@ const api = {
   // 用户登录
   login: data => { return axios.request({ url: 'ol/login/', data, method: 'post' }) },
   // 获取用户信息
-  getUserInfo: data => { return axios.request({ url: 'ol/userInfo/',data, method: 'get' }) },
+  getUserInfo: data => { return axios.request({ url: 'ol/userinfo/',data, method: 'get' }) },
   /******************      login模块  end        *****************************/
 
   /******************      book模块          *****************************/
   // 增加书籍
-  addBook: data => { return axios.request({ url: '/book/addbook', data, method: 'post' }) },
+  addBook: data => { return axios.request({ url: 'ol/book/addbook', data, method: 'post' }) },
   // 获取书籍信息
-  getBookList: data => { return axios.request({ url: '/book/bookList', data, method: 'get' }) },
+  getBookList: data => { return axios.request({ url: 'ol/book/booklist', data, method: 'get' }) },
   // 增加阅读记录
   addReading: data => { return axios.request({ url: '/book/readInfo', data, method: 'post' }) },
   // 删除图书
