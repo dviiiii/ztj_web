@@ -14,11 +14,11 @@ const api = {
   // 获取书籍信息
   getBookList: data => { return axios.request({ url: 'ol/book/booklist', data, method: 'get' }) },
   // 增加阅读记录
-  addReading: data => { return axios.request({ url: '/book/readInfo', data, method: 'post' }) },
+  addReading: data => { return axios.request({ url: 'ol/book/addreadinfo', data, method: 'post' }) },
   // 删除图书
-  deleteBook: data => { return axios.request({ url: '/book/deleteBook', data, method: 'post' }) },
+  deleteBook: data => { return axios.request({ url: 'ol/book/deletebook', data, method: 'post' }) },
   // 获取复习信息
-  getReviewInfo: data => { return axios.request({ url: '/book/getReviewInfo', data, method: 'get' }) },
+  getReviewInfo: data => { return axios.request({ url: 'ol/book/getreviewinfo', data, method: 'get' }) },
   // 确认已复习
   checkReview: data => { return axios.request({ url: '/book/checkReview', data, method: 'post' }) },
   /******************      book模块   end       *****************************/

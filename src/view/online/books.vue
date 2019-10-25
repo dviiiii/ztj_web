@@ -270,7 +270,7 @@
                 const vm = this;
                 vm.$api.getReviewInfo()
                     .then(function (res) {
-                            vm.reviewInfo = res.data.data;
+                            vm.reviewInfo = res.data.list;
                     })
                     .catch(function (err) {
                         console.log(err);
