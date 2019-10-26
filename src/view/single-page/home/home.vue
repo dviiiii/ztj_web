@@ -82,7 +82,7 @@ export default {
       vm.$api.getRank()
         .then(function (res) {
           if(res.data.status === 0) {
-            vm.rank = res.data.data;
+            vm.rank = res.data.list;
           }else {
             vm.$Message.error(res.data.data);
           }
@@ -95,21 +95,21 @@ export default {
 
 
     //获取当前积分
-    updateRank (val) {
-      const vm = this;
-
-      vm.$api.updateRank({rankVal: val})
-        .then(function (res) {
-          console.log(res)
-          if(res.status === 0) {
-            vm.rank = res.data;
-          }
-        })
-        .catch(function (err) {
-          console.log(err.response);
-          vm.$Message.error('服务器错误！');
-        })
-    },
+    // updateRank (val) {
+    //   const vm = this;
+    //
+    //   vm.$api.updateRank({rankVal: val})
+    //     .then(function (res) {
+    //       console.log(res)
+    //       if(res.status === 0) {
+    //         vm.rank = res.data;
+    //       }
+    //     })
+    //     .catch(function (err) {
+    //       console.log(err.response);
+    //       vm.$Message.error('服务器错误！');
+    //     })
+    // },
   }
 }
 </script>

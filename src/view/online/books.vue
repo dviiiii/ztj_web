@@ -64,7 +64,7 @@
 </template>
 
 <script>
-
+import expandRow from './expand-row'
     export default {
         name: 'books',
         data () {
@@ -117,6 +117,17 @@
                     }
                 ],
                 booksColumns: [
+                  {
+                    type: 'expand',
+                    width: 50,
+                    render: (h, params) => {
+                      return h(expandRow, {
+                        props: {
+                          row: params.row
+                        }
+                      })
+                    }
+                  },
                     {
                         title: '书名',
                         key: 'book_name'

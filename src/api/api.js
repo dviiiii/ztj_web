@@ -20,12 +20,14 @@ const api = {
   // 获取复习信息
   getReviewInfo: data => { return axios.request({ url: 'ol/book/getreviewinfo', data, method: 'get' }) },
   // 确认已复习
-  checkReview: data => { return axios.request({ url: '/book/checkReview', data, method: 'post' }) },
+  checkReview: data => { return axios.request({ url: 'ol/book/checkreview', data, method: 'post' }) },
+  // 获取读书明细
+  getProgessInfo: data => { return axios.request({ url: 'ol/book/getprogessinfo', data, method: 'post' }) },
   /******************      book模块   end       *****************************/
 
   /******************      ol模块          *****************************/
   // 查询积分
-  getRank: data => { return axios.request({ url: '/ol/getRank', data, method: 'get' }) },
+  getRank: data => { return axios.request({ url: '/ol/rank/getrank', data, method: 'get' }) },
   // 更新积分
   updateRank: data => { return axios.request({ url: '/ol/updateRank', data, method: 'post' }) },
 
