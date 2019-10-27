@@ -1,63 +1,3 @@
-
-<template>
-    <div class="main">
-      <div class="content c1">
-        <div class="c-head h1">
-          <span>很重要-很紧急</span>
-          <Icon type="ios-add" class="task-add" />
-        </div>
-      </div>
-      <div class="content c2">
-        <div class="c-head h2">
-          <span>重要-不紧急</span>
-          <Icon type="ios-add" class="task-add" />
-        </div>
-      </div>
-      <div class="content c3">
-        <div class="c-head h3">
-          <span>不重要-紧急</span>
-          <Icon type="ios-add" class="task-add" />
-        </div>
-      </div>
-      <div class="content c4">
-        <div class="c-head h4">
-          <span>不重要-紧急</span>
-          <Icon type="ios-add" class="task-add" />
-        </div>
-      </div>
-    </div>
-</template>
-
-<script>
-
-    export default {
-        name: 'tasks',
-        data () {
-            return {
-
-            }
-        },
-        mounted () {
-          this.source_bk_test();
-        },
-        methods: {
-          //自动还原测试
-          source_bk_test () {
-            const vm = this;
-            vm.$api.source_bk_test()
-              .then(function (res) {
-                console.log(res)
-              })
-              .catch(function (err) {
-                console.log(err.response);
-                vm.$Message.error('服务器错误！');
-              })
-          },
-
-        }
-    };
-</script>
-
 <style lang="less" scoped="">
   .main {
     height: 100%;
@@ -128,3 +68,91 @@
     background: #ffffff;
   }
 </style>
+<template>
+    <div class="main">
+      <div class="content c1">
+        <div class="c-head h1">
+          <span>很重要-很紧急</span>
+          <Icon type="ios-add" class="task-add" />
+        </div>
+      </div>
+      <div class="content c2">
+        <div class="c-head h2">
+          <span>重要-不紧急</span>
+          <Icon type="ios-add" class="task-add" />
+        </div>
+      </div>
+      <div class="content c3">
+        <div class="c-head h3">
+          <span>不重要-紧急</span>
+          <Icon type="ios-add" class="task-add" />
+        </div>
+      </div>
+      <div class="content c4">
+        <div class="c-head h4">
+          <span>不重要-紧急</span>
+          <Icon type="ios-add" class="task-add" />
+        </div>
+      </div>
+    </div>
+</template>
+
+<script>
+
+    export default {
+        name: 'tasks',
+        data () {
+            return {
+
+            }
+        },
+        mounted () {
+          this.queryTask();
+        },
+        methods: {
+          //自动还原测试
+          addTask () {
+            const vm = this;
+            let params = {
+              task_name: '测试任务',
+              task_add_rank: 50,
+              task_reduce_rank: 50,
+              task_mark: '测试任务备注',
+              task_plan_complete_time: '2019-10-27 11:59:59',
+              task_quadrant: 1,
+              task_repeat_type: 0,
+              task_repeat_point: 0,
+              task_repeat_end: 0,
+            };
+            vm.$api.addTask(params)
+              .then(function (res) {
+                console.log(res)
+              })
+              .catch(function (err) {
+                console.log(err.response);
+                vm.$Message.error('服务器错误！');
+              })
+          },
+
+          queryTask () {
+            const vm = this;
+            let params = {
+              begin: '2019-10-27',
+              end: '2019-10-27',
+            };
+            vm.$api.queryTask(params)
+              .then(function (res) {
+                console.log(res)
+              })
+              .catch(function (err) {
+                console.log(err.response);
+                vm.$Message.error('服务器错误！');
+              })
+          },
+
+
+        }
+    };
+</script>
+
+

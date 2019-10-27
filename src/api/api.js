@@ -33,6 +33,7 @@ const api = {
 
   /******************      ol模块    end      *****************************/
 
-  source_bk_test: data => { return axios.request({ url: '/ol/source_bk_test/', data, method: 'post' }) },
+  addTask: data => { return axios.request({ url: '/ol/task/addtask', data, method: 'post' }) },
+  queryTask: data => { return axios.request({ url: '/ol/task/querytask', data, method: 'post' }) },
 }
 export default api
