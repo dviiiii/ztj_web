@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '@/store'
 import { getToken,cleanToken } from '@/libs/util'
 import router from '@/router/index'
-// import { Spin } from 'iview'
+// import { Spin } from 'view-design'
 const addErrorLog = errorInfo => {
   const { statusText, status, request: { responseURL } } = errorInfo
   let info = {

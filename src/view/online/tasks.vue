@@ -97,7 +97,7 @@
           <Icon type="ios-add" class="task-add"/>
         </div>
         <div class="input-head" v-show="task_quadrant_show === 1">
-          <Input :autofocus="true" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
+          <Input ref="task_input1" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
         </div>
       </div>
       <div class="content c2">
@@ -151,6 +151,9 @@
           easyAdd(task_quadrant) {
             const vm = this;
             vm.task_quadrant_show = task_quadrant;
+
+            console.log(vm.$refs.task_input1)
+            vm.$refs.task_input1.focus()
           },
 
           taskInputBlur() {
