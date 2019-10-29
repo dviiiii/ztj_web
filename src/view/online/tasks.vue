@@ -152,8 +152,10 @@
             const vm = this;
             vm.task_quadrant_show = task_quadrant;
 
-            console.log(vm.$refs.task_input1)
-            vm.$refs.task_input1.focus()
+            setTimeout(() => {
+              vm.$refs['task_input' + task_quadrant].focus()
+            }, 500)
+
           },
 
           taskInputBlur() {
