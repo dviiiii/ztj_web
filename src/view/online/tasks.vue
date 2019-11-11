@@ -8,6 +8,7 @@
     height: 50%;
     float: left;
     padding-top: 15px;
+    overflow: hidden;
   }
 
   .c1 {
@@ -65,6 +66,45 @@
     margin: 0 20px;
   }
 
+  .c-body {
+    padding: 0 30px 42px 30px;
+    overflow: auto;
+    height: 100%;
+  }
+
+  .c-body .list+.list {
+    border-top: 1px dashed #d9d9d9;
+  }
+
+  .c-body .list {
+    line-height: 40px;
+    height: 40px;
+    position: relative;
+
+  }
+
+  .c-body .list .text {
+    display: block;
+    float: left;
+    height: 40px;
+    overflow: hidden;
+    margin-top: -40px;
+    padding-left: 30px;
+    padding-right: 20px;
+    width: 100%;
+  }
+
+  .c-body .list .time {
+    color: #BCC3C5;
+    font-size: 14px;
+    font-weight: lighter;
+    position: absolute;
+    background: #fff;
+    height: 39px;
+    padding-left: 6px;
+    right: 26px;
+  }
+
 </style>
 
 <style>
@@ -98,6 +138,13 @@
         </div>
         <div class="input-head" v-show="task_quadrant_show === 1">
           <Input ref="task_input1" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
+        </div>
+        <div class="c-body list1">
+          <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 1">
+            <Radio @on-change="completeTask(item)"  size="large" class="radio"></Radio>
+            <span class="text">{{item.task_name}}</span>
+            <span class="time">{{item.task_plan_complete_time}}</span>
+          </div>
         </div>
       </div>
       <div class="content c2">
@@ -138,7 +185,8 @@
                 task_repeat_type: 0,
                 task_repeat_point: 0,
                 task_repeat_end: 0,
-              }
+              },
+              task_list: []
             }
         },
         mounted () {
@@ -163,7 +211,7 @@
             vm.task_quadrant_show = 0;
           },
 
-          //自动还原测试
+          //新增任务
           addTask (task_quadrant) {
             const vm = this;
 
@@ -196,14 +244,17 @@
               })
           },
 
+          //查询任务
           queryTask () {
             const vm = this;
             let params = {
               begin: '2019-10-27',
               end: '2100-12-31',
+              task_status: 0
             };
             vm.$api.queryTask(params)
               .then(function (res) {
+                vm.task_list = res.data.list;
                 console.log(res)
               })
               .catch(function (err) {
@@ -212,6 +263,23 @@
               })
           },
 
+          //完成任务
+          completeTask(item) {
+            const vm = this;
+            console.log(item)
+            let params = {
+              id: item.id
+            }
+            vm.$api.completeTask(params)
+              .then(function (res) {
+                console.log(res)
+                vm.queryTask();
+              })
+              .catch(function (err) {
+                console.log(err.response);
+                vm.$Message.error('服务器错误！');
+              })
+          },
 
         }
     };
