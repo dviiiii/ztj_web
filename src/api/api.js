@@ -35,5 +35,9 @@ const api = {
 
   addTask: data => { return axios.request({ url: '/ol/task/addtask', data, method: 'post' }) },
   queryTask: data => { return axios.request({ url: '/ol/task/querytask', data, method: 'post' }) },
+
+
+  get_emmm_list: data => { return axios.request({ url: '/ol/emmm/get_emmm_list', data, method: 'post' }) },
+  get_emmm_target: data => { return axios.request({ url: '/ol/emmm/get_emmm_target', data, method: 'post' }) },
 }
 export default api

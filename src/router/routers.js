@@ -437,6 +437,26 @@ export default [
     ]
   },
   {
+    path: '/emmm',
+    name: 'emmm',
+    meta: {
+      icon: 'md-menu',
+      title: 'ol'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'index',
+        name: 'just_so_so',
+        meta: {
+          icon: 'md-funnel',
+          title: 'just_so_so'
+        },
+        component: () => import('@/view/emmm/emmm.vue')
+      },
+    ]
+  },
+  {
     path: '/argu',
     name: 'argu',
     meta: {
