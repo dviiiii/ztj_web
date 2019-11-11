@@ -82,8 +82,8 @@
         <Col span="12">
           <RadioGroup v-model="ismsk" class="radio">
             <Radio label="all">全部</Radio>
-            <Radio label="0">无码</Radio>
-            <Radio label="1">有码</Radio>
+            <Radio label="0">yes</Radio>
+            <Radio label="1">no</Radio>
           </RadioGroup>
         </Col>
 
