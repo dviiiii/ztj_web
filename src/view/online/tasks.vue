@@ -105,6 +105,70 @@
     right: 26px;
   }
 
+  .date-btn {
+    display: inline-block;
+  }
+
+  .main-head {
+    margin: 0 30px;
+    height: 40px;
+    border-bottom: 1px solid #ededed;
+    line-height: 40px;
+  }
+  .main-head-left {
+    float: left;
+  }
+
+  .main-head-right {
+    float: right;
+  }
+
+  .r-add {
+    font-size: 32px;
+    padding: 0 10px;
+    position: relative;
+    top: 6px;
+    color: #00C0EE;
+    cursor: pointer;
+  }
+
+  .main-head .date {
+    display: inline-block;
+    width: 100px;
+  }
+
+  .m-next, .m-pre {
+    font-size: 20px;
+    cursor: pointer;
+
+  }
+
+  .m-next:hover, .m-pre:hover {
+    color: #00C0EE;
+  }
+
+  .btn {
+    color: #444;
+    background-color: #fff;
+    display: inline-block;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    padding: 0 6px;
+    height: 30px;
+    line-height: 30px;
+    cursor: pointer;
+  }
+
+  .btn.active,.btn:hover {
+    color: #fff;
+    background-color: #2BBFF3;
+    border-color: #2BBFF3;
+    box-shadow: none;
+  }
+
+  .main-head-left>.btn {
+    margin: 0 15px;
+  }
 </style>
 
 <style>
@@ -131,6 +195,27 @@
 </style>
 <template>
     <div class="main">
+      <div class="main-head clearfix">
+        <div class="main-head-left">
+          <span class="date">2019-11-12</span>
+          <Icon class="m-pre" type="ios-arrow-back" />
+          <Icon class="m-next" type="ios-arrow-forward" />
+
+          <span class="btn">今天</span>
+          <div class="date-btn">
+            <span class="btn">日</span>
+            <span class="btn">周</span>
+            <span class="btn">月</span>
+          </div>
+
+        </div>
+        <div class="main-head-right">
+          <Select @on-change="queryTask" size="small" v-model="select_status" style="width:80px">
+            <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+          <Icon type="md-add" class="r-add" />
+        </div>
+      </div>
       <div class="content c1">
         <div class="c-head h1" v-show="task_quadrant_show !== 1" @click="easyAdd(1)">
           <span>很重要-很紧急</span>
@@ -141,9 +226,9 @@
         </div>
         <div class="c-body list1">
           <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 1">
-            <Radio @on-change="completeTask(item)"  size="large" class="radio"></Radio>
+            <Radio @on-change="completeTask(item)"  size="large" class="radio" v-model="item.task_status === 1" ></Radio>
             <span class="text">{{item.task_name}}</span>
-            <span class="time">{{item.task_plan_complete_time}}</span>
+            <span class="time">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
           </div>
         </div>
       </div>
@@ -152,17 +237,49 @@
           <span>重要-不紧急</span>
           <Icon type="ios-add" class="task-add"/>
         </div>
+        <div class="input-head" v-show="task_quadrant_show === 2">
+          <Input ref="task_input1" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
+        </div>
+        <div class="c-body list2">
+          <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 2">
+            <Radio @on-change="completeTask(item)"  size="large" class="radio" v-model="item.task_status === 1" ></Radio>
+            <span class="text">{{item.task_name}}</span>
+            <span class="time">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
+          </div>
+        </div>
       </div>
+
       <div class="content c3">
         <div class="c-head h3" @click="easyAdd(3)">
           <span>不重要-紧急</span>
           <Icon type="ios-add" class="task-add"/>
         </div>
+        <div class="input-head" v-show="task_quadrant_show === 3">
+          <Input ref="task_input1" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
+        </div>
+        <div class="c-body list3">
+          <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 3">
+            <Radio @on-change="completeTask(item)"  size="large" class="radio" v-model="item.task_status === 1" ></Radio>
+            <span class="text">{{item.task_name}}</span>
+            <span class="time">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
+          </div>
+        </div>
       </div>
+
       <div class="content c4">
         <div class="c-head h4" @click="easyAdd(4)">
           <span>不重要-紧急</span>
           <Icon type="ios-add" class="task-add"/>
+        </div>
+        <div class="input-head" v-show="task_quadrant_show === 4">
+          <Input ref="task_input1" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
+        </div>
+        <div class="c-body list4">
+          <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 4">
+            <Radio @on-change="completeTask(item)"  size="large" class="radio" v-model="item.task_status === 1" ></Radio>
+            <span class="text">{{item.task_name}}</span>
+            <span class="time">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -176,6 +293,7 @@
             return {
               task_quadrant_show: 0,
               task_quadrant: 0,
+              select_status: '0',
               task_data: {
                 task_name: '',
                 task_add_rank: 0,
@@ -186,6 +304,20 @@
                 task_repeat_point: 0,
                 task_repeat_end: 0,
               },
+              statusList: [
+                {
+                  label: '全部',
+                  value: '-1'
+                },
+                {
+                  label: '未完成',
+                  value: '0'
+                },
+                {
+                  label: '已完成',
+                  value: '1'
+                },
+              ],
               task_list: []
             }
         },
@@ -250,7 +382,7 @@
             let params = {
               begin: '2019-10-27',
               end: '2100-12-31',
-              task_status: 0
+              task_status: vm.select_status
             };
             vm.$api.queryTask(params)
               .then(function (res) {
