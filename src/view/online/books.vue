@@ -1,5 +1,66 @@
 
 
+<style lang="less" scoped="">
+  .fn-left {
+    width: 66%;
+    float: left;
+  }
+
+  .fn-left .fn-addBook,
+  .fn-left .fn-reading{
+    width: 49%;
+    float: left;
+  }
+
+  .fn-left .fn-books-table {
+    width: 98%;
+    float: left;
+  }
+
+  .fn-right {
+    width: 33%;
+    float: right;
+  }
+
+  .reading, .review-table {
+    width: 90%;
+    margin: auto;
+  }
+
+  .reading-table .ivu-table-wrapper {
+    min-height: 140px;
+  }
+
+  .reading {
+    position: inherit;
+  }
+  .reading button {
+    margin: 15px 0;
+    float: right;
+  }
+
+  .reading-input {
+    width: 49%;
+    margin-top: 15px;
+  }
+
+  .reading-input + .reading-input {
+    margin-left: 2%;
+  }
+
+  .books-table {
+    width: 95%;
+    margin: 30px auto;
+  }
+
+  .reading_rank {
+    position: relative;
+    top: 15px;
+  }
+
+
+</style>
+
 <template>
     <div>
         <div class="fn-left clearfix">
@@ -330,66 +391,3 @@ import expandRow from './expand-row'
         }
     };
 </script>
-
-<style lang="less" scoped="">
-    .fn-left {
-        width: 66%;
-        float: left;
-    }
-
-    .fn-left .fn-addBook,
-    .fn-left .fn-reading{
-        width: 49%;
-        float: left;
-    }
-
-    .fn-left .fn-books-table {
-        width: 98%;
-        float: left;
-    }
-
-    .fn-right {
-        width: 33%;
-        float: right;
-    }
-
-    .reading, .review-table {
-        width: 90%;
-        margin: auto;
-    }
-
-    .reading-table .ivu-table-wrapper {
-        min-height: 140px;
-    }
-
-    .reading .ivu-input-type,
-    .reading .ivu-select-single {
-        margin-top: 15px;
-    }
-
-    .reading button {
-        margin: 15px 0;
-        float: right;
-    }
-
-    .reading-input {
-        width: 49%;
-    }
-
-    .reading-input + .reading-input {
-      margin-left: 2%;
-    }
-
-    .books-table {
-        width: 95%;
-        margin: 30px auto;
-    }
-
-    .reading_rank {
-      position: absolute;
-      left: 15px;
-      bottom: 12px;
-    }
-
-
-</style>
