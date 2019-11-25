@@ -169,6 +169,10 @@
   .main-head-left>.btn {
     margin: 0 15px;
   }
+
+  .c-body .list .time.timeout {
+    color: red;
+  }
 </style>
 
 <style>
@@ -192,20 +196,44 @@
     background-color: #FFEDE7;
     box-shadow: none;
   }
+
+  .i2 input, .i2 input:hover, .i2 input:focus{
+    /*border: 1px solid #F76333;*/
+    /*background-color: #FFEDE7;*/
+    border-color: #FEAE6A;
+    background-color: #FFEFCB;
+    box-shadow: none;
+  }
+
+  .i3 input, .i3 input:hover, .i3 input:focus{
+    /*border: 1px solid #F76333;*/
+    /*background-color: #FFEDE7;*/
+    border-color: #3FB6DA;
+    background-color: #D6F4FE;
+    box-shadow: none;
+  }
+
+  .i4 input, .i4 input:hover, .i4 input:focus{
+    /*border: 1px solid #F76333;*/
+    /*background-color: #FFEDE7;*/
+    border-color: #89C557;
+    background-color: #EFD;
+    box-shadow: none;
+  }
 </style>
 <template>
     <div class="main">
       <div class="main-head clearfix">
         <div class="main-head-left">
-          <span class="date">2019-11-12</span>
-          <Icon class="m-pre" type="ios-arrow-back" />
-          <Icon class="m-next" type="ios-arrow-forward" />
+          <span class="date">{{selectDate}}</span>
+          <Icon class="m-pre" @click="preDate" type="ios-arrow-back" />
+          <Icon class="m-next" @click="nextDate" type="ios-arrow-forward" />
 
-          <span class="btn">今天</span>
+          <span class="btn" @click="toToday">今天</span>
           <div class="date-btn">
-            <span class="btn">日</span>
-            <span class="btn">周</span>
-            <span class="btn">月</span>
+            <span @click="selectDateModel('day')" class="btn" :class="{'active': dateModel === 'day'}">日</span>
+            <span @click="selectDateModel('week')" class="btn" :class="{'active': dateModel === 'week'}">周</span>
+            <span @click="selectDateModel('month')" class="btn" :class="{'active': dateModel === 'month'}">月</span>
           </div>
 
         </div>
@@ -228,7 +256,7 @@
           <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 1">
             <Radio @on-change="completeTask(item)"  size="large" class="radio" v-model="item.task_status === 1" ></Radio>
             <span class="text">{{item.task_name}}</span>
-            <span class="time">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
+            <span class="time" :class="{'timeout': nowDate > new Date(item.task_plan_complete_time)}">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
           </div>
         </div>
       </div>
@@ -238,13 +266,13 @@
           <Icon type="ios-add" class="task-add"/>
         </div>
         <div class="input-head" v-show="task_quadrant_show === 2">
-          <Input ref="task_input1" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
+          <Input ref="task_input2" class="i-input i2" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
         </div>
         <div class="c-body list2">
           <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 2">
             <Radio @on-change="completeTask(item)"  size="large" class="radio" v-model="item.task_status === 1" ></Radio>
             <span class="text">{{item.task_name}}</span>
-            <span class="time">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
+            <span class="time" :class="{'timeout': nowDate > new Date(item.task_plan_complete_time)}">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
           </div>
         </div>
       </div>
@@ -255,13 +283,13 @@
           <Icon type="ios-add" class="task-add"/>
         </div>
         <div class="input-head" v-show="task_quadrant_show === 3">
-          <Input ref="task_input1" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
+          <Input ref="task_input3" class="i-input i3" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
         </div>
         <div class="c-body list3">
           <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 3">
             <Radio @on-change="completeTask(item)"  size="large" class="radio" v-model="item.task_status === 1" ></Radio>
             <span class="text">{{item.task_name}}</span>
-            <span class="time">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
+            <span class="time" :class="{'timeout': nowDate > new Date(item.task_plan_complete_time)}">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
           </div>
         </div>
       </div>
@@ -272,13 +300,13 @@
           <Icon type="ios-add" class="task-add"/>
         </div>
         <div class="input-head" v-show="task_quadrant_show === 4">
-          <Input ref="task_input1" class="i-input i1" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
+          <Input ref="task_input4" class="i-input i4" v-model="task_data.task_name" icon="md-return-left" placeholder="输入任务，按ENTRY键完成" @on-blur="taskInputBlur" @on-enter="addTask(1)"/>
         </div>
         <div class="c-body list4">
           <div class="list" v-for="item in task_list" v-if="item.task_quadrant === 4">
             <Radio @on-change="completeTask(item)"  size="large" class="radio" v-model="item.task_status === 1" ></Radio>
             <span class="text">{{item.task_name}}</span>
-            <span class="time">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
+            <span class="time" :class="{'timeout': nowDate > new Date(item.task_plan_complete_time)}">{{item.task_plan_complete_time.split('T')[0]}}&nbsp;&nbsp;{{item.task_plan_complete_time.split('T')[1]}}</span>
           </div>
         </div>
       </div>
@@ -287,6 +315,7 @@
 
 <script>
     import {dateFormat} from '../../libs/util'
+    import moment from 'moment';
     export default {
         name: 'tasks',
         data () {
@@ -318,26 +347,98 @@
                   value: '1'
                 },
               ],
-              task_list: []
+              task_list: [],
+              nowDate: new Date(),
+              selectDate: moment().format('YYYY-MM-DD'),
+              dateModel: 'day'
             }
         },
         mounted () {
           this.queryTask();
-          console.log(1111)
-          console.log(dateFormat(new Date()).substr(0, 10) + ' 23:59:59')
+
         },
         methods: {
+
+          //查询今天
+          toToday() {
+            this.selectDate =  moment().format('YYYY-MM-DD');
+            this.dateModel = 'day';
+
+            this.queryTask();
+          },
+
+          //查询时间
+          selectDateModel(model) {
+            const vm = this;
+            if(model === 'day') {
+              this.selectDate =  moment().format('YYYY-MM-DD');
+              this.dateModel = 'day';
+            }
+
+            if(model === 'week') {
+              this.selectDate =  moment().weekday(1).format('YYYY-MM-DD') + '~' + moment().weekday(7).format('YYYY-MM-DD').substr(8, 10);
+              this.dateModel = 'week';
+            }
+
+            if(model === 'month') {
+              this.selectDate =  moment().format('YYYY-MM');
+              this.dateModel = 'month';
+            }
+
+            this.queryTask();
+          },
+
+          //上一个日期
+          preDate() {
+            const vm = this;
+            if(vm.dateModel === 'day') {
+              this.selectDate =  moment(vm.selectDate).subtract(1, 'd').format('YYYY-MM-DD');
+            }
+
+            if(vm.dateModel === 'week') {
+              let netweek = moment(vm.selectDate.split('~')[0]).subtract(7, 'd')
+              this.selectDate =  moment(netweek).weekday(1).format('YYYY-MM-DD') + '~' + moment(netweek).weekday(7).format('YYYY-MM-DD').substr(8, 10);
+            }
+
+            if(vm.dateModel === 'month') {
+              this.selectDate =  moment(vm.selectDate).subtract(1, 'month').format('YYYY-MM');
+            }
+
+            this.queryTask();
+          },
+
+          //下一个日期
+          nextDate() {
+            const vm = this;
+            if(vm.dateModel === 'day') {
+              this.selectDate =  moment(vm.selectDate).add(1, 'd').format('YYYY-MM-DD');
+            }
+
+            if(vm.dateModel === 'week') {
+              let netweek = moment(vm.selectDate.split('~')[0]).add(7, 'd')
+              this.selectDate =  moment(netweek).weekday(1).format('YYYY-MM-DD') + '~' + moment(netweek).weekday(7).format('YYYY-MM-DD').substr(8, 10);
+            }
+
+            if(vm.dateModel === 'month') {
+              this.selectDate =  moment(vm.selectDate).add(1, 'month').format('YYYY-MM');
+            }
+
+            this.queryTask();
+          },
+
           //根据象限增加任务
           easyAdd(task_quadrant) {
             const vm = this;
             vm.task_quadrant_show = task_quadrant;
 
             setTimeout(() => {
+              console.log(vm.$refs['task_input' + task_quadrant])
               vm.$refs['task_input' + task_quadrant].focus()
             }, 500)
 
           },
 
+          //任务输入框失去焦点
           taskInputBlur() {
             const vm = this;
             vm.task_quadrant_show = 0;
@@ -366,7 +467,6 @@
 
             vm.$api.addTask(params)
               .then(function (res) {
-                console.log(res)
                 vm.task_quadrant_show = 0;
                 vm.queryTask();
               })
@@ -379,15 +479,32 @@
           //查询任务
           queryTask () {
             const vm = this;
-            let params = {
-              begin: '2019-10-27',
-              end: '2100-12-31',
-              task_status: vm.select_status
-            };
+            let params = {};
+            if(vm.dateModel === 'day') {
+              params = {
+                begin: '1990-01-01',
+                end: vm.selectDate,
+              };
+            }
+
+            if(vm.dateModel === 'week') {
+              params = {
+                begin: vm.selectDate.split('~')[0],
+                end: moment(vm.selectDate.split('~')[0]).weekday(7).format('YYYY-MM-DD'),
+              };
+            }
+
+            if(vm.dateModel === 'month') {
+              params = {
+                begin: moment(vm.selectDate).startOf('month').format('YYYY-MM-DD'),
+                end: moment(vm.selectDate).endOf('month').format('YYYY-MM-DD'),
+              };
+            }
+
+            params.task_status = vm.select_status;
             vm.$api.queryTask(params)
               .then(function (res) {
                 vm.task_list = res.data.list;
-                console.log(res)
               })
               .catch(function (err) {
                 console.log(err.response);
@@ -398,13 +515,11 @@
           //完成任务
           completeTask(item) {
             const vm = this;
-            console.log(item)
             let params = {
               id: item.id
             }
             vm.$api.completeTask(params)
               .then(function (res) {
-                console.log(res)
                 vm.queryTask();
               })
               .catch(function (err) {
